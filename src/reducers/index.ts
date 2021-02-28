@@ -7,7 +7,7 @@ import { DefaultRootState } from 'react-redux';
 import { IQuestion, IUser } from '../utils/_DATA';
 
 export interface IStoreState extends DefaultRootState {
-    authUser: string;
+    authedUser: string;
     questions: { [key: string]: IQuestion };
     users: { [key: string]: IUser };
 }

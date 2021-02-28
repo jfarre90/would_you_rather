@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import { Fragment, useEffect, FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { LoadingBar } from 'react-redux-loading';
 import { Route, Switch } from 'react-router-dom';
@@ -6,8 +6,9 @@ import { handleInitialData } from '../actions/shared';
 import { IStoreState } from '../reducers';
 import Home from './Home';
 import Login from './Login';
+import QuestionPage from './QuestionPage';
 
-const App: React.FC = () => {
+const App: FC = () => {
     // const users = useSelector((state: IStoreState) => state.users);
     // const questions = useSelector((state: IStoreState) => state.questions);
     // const authUser = useSelector((state: IStoreState) => state.authUser);
@@ -30,6 +31,9 @@ const App: React.FC = () => {
                         </Route>
                         <Route path="/login">
                             <Login />
+                        </Route>
+                        <Route path="/questions/:id">
+                            <QuestionPage />
                         </Route>
                     </div>
                 )}

@@ -1,23 +1,38 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { LoadingBar } from 'react-redux-loading';
-import { Switch } from 'react-router-dom';
-import './App.css';
+import { Route, Switch } from 'react-router-dom';
+import { handleInitialData } from '../actions/shared';
+import { IStoreState } from '../reducers';
+import Home from './Home';
+import Login from './Login';
 
 const App: React.FC = () => {
-    // const authUser = useSelector(state => state.authUser);
-    // const loading = useSelector(state => state.authUser === null);
+    // const users = useSelector((state: IStoreState) => state.users);
+    // const questions = useSelector((state: IStoreState) => state.questions);
+    // const authUser = useSelector((state: IStoreState) => state.authUser);
+    const loading = useSelector((state: IStoreState) => state.users === null);
 
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-    // useEffect(() => {
-    //     dispatch(handleInitialData());
-    // }, [authUser])
+    useEffect(() => {
+        dispatch(handleInitialData());
+    }, []);
 
     return (
         <Switch>
             <Fragment>
                 <LoadingBar />
-                <h1>Hello world</h1>
+                {loading ? null : (
+                    <div>
+                        <Route Route exact path="/">
+                            <Home />
+                        </Route>
+                        <Route path="/login">
+                            <Login />
+                        </Route>
+                    </div>
+                )}
                 {/* <div className="container">
 
                     {loading

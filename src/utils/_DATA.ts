@@ -12,7 +12,8 @@ export interface ISavedAnswer {
     answer: string;
 }
 
-interface IUser {
+export interface IUser {
+    [index: string]: any; //Defines that this is indexable
     id: string;
     name: string;
     avatarURL: string;
@@ -25,7 +26,7 @@ export interface IQuestionOption {
     text: string;
 }
 
-interface IQuestion {
+export interface IQuestion {
     [index: string]: any; //Defines that this is indexable
     id: string;
     author: string;

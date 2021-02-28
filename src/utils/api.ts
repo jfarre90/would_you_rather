@@ -1,9 +1,9 @@
-import { ISavedAnswer, ISavedQuestion, _getQuestions, _getUsers, _saveQuestion, _saveQuestionAnswer } from './_DATA.js';
+import { ISavedAnswer, ISavedQuestion, _getQuestions, _getUsers, _saveQuestion, _saveQuestionAnswer } from './_DATA';
 
 export async function getInitialData(): Promise<any> {
     return Promise.all([_getUsers(), _getQuestions()]).then(([users, questions]) => ({
         users,
-        questions,
+        questions
     }));
 }
 

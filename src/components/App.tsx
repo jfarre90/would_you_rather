@@ -1,60 +1,71 @@
-import { Fragment, useEffect, FC } from 'react';
+import { CircularProgress, createStyles, makeStyles } from '@material-ui/core';
+import { FC, Fragment, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { LoadingBar } from 'react-redux-loading';
+import LoadingBar from 'react-redux-loading-bar';
 import { Route, Switch } from 'react-router-dom';
 import { handleInitialData } from '../actions/shared';
 import { IStoreState } from '../reducers';
 import Home from './Home';
 import Login from './Login';
+import NewQuestion from './NewQuestion';
+import NotFound from './NotFound';
+import PrivateRoute from './PrivateRoute';
 import QuestionPage from './QuestionPage';
 
+const useStyles = makeStyles(() =>
+    createStyles({
+        root: {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh'
+        }
+    })
+);
+
 const App: FC = () => {
-    // const users = useSelector((state: IStoreState) => state.users);
-    // const questions = useSelector((state: IStoreState) => state.questions);
-    // const authUser = useSelector((state: IStoreState) => state.authUser);
-    const loading = useSelector((state: IStoreState) => state.users === null);
+    const authUser: string = useSelector((state: IStoreState) => state.authedUser);
+    const loading = useSelector((state: IStoreState) => Object.entries(state.users).length === 0);
+
+    const classes = useStyles();
 
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(handleInitialData());
-    }, []);
+    }, [authUser]);
 
     return (
-        <Switch>
-            <Fragment>
-                <LoadingBar />
-                {loading ? null : (
-                    <div>
-                        <Route Route exact path="/">
-                            <Home />
-                        </Route>
-                        <Route path="/login">
-                            <Login />
-                        </Route>
-                        <Route path="/questions/:id">
-                            <QuestionPage />
-                        </Route>
-                    </div>
-                )}
-                {/* <div className="container">
+        <Fragment>
+            <LoadingBar />
 
-                    {loading
-                        ? null
-                        : <div>
-                            <Route exact path="/">
-
-                            </Route>
-                            <Route path="/tweet/:id">
-
-                            </Route>
-                            <Route path="/new">
-
-                            </Route>
-                        </div>}
-                </div> */}
-            </Fragment>
-        </Switch>
+            {loading ? (
+                <div className={classes.root}>
+                    <CircularProgress size={100} />
+                </div>
+            ) : (
+                <Switch>
+                    <PrivateRoute exact path="/">
+                        <Home />
+                    </PrivateRoute>
+                    <Route path="/login">
+                        <Login />
+                    </Route>
+                    <PrivateRoute path="/questions/:id">
+                        <QuestionPage />
+                    </PrivateRoute>
+                    <PrivateRoute path="/leaderboard">
+                        <h1>Leaderboard placeholder</h1>
+                    </PrivateRoute>
+                    <PrivateRoute path="/add">
+                        <NewQuestion />
+                    </PrivateRoute>
+                    <Route path="*">
+                        <NotFound />
+                    </Route>
+                </Switch>
+            )}
+        </Fragment>
     );
 };
 

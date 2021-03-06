@@ -1,28 +1,10 @@
-import { Switch } from '@material-ui/core';
+import { Switch, FormControlLabel } from '@material-ui/core';
 import { ChangeEvent, FC, Fragment, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { IStoreState } from '../reducers';
 import { IUser } from '../utils/_DATA';
 import Question from './Question';
 import './QuestionsList.css';
-
-// const useStyles = makeStyles((theme: Theme) =>
-//     createStyles({
-//         root: {
-//             flexGrow: 1,
-//             color: 'white'
-//         },
-//         navBar: {
-//             justifyContent: 'space-between'
-//         },
-//         navBarButton: {
-//             color: 'white'
-//         },
-//         icon: {
-//             marginRight: theme.spacing(1)
-//         }
-//     })
-// );
 
 const QuestionsList: FC = () => {
     const [answeredFilter, setAnsweredFilter] = useState(false);
@@ -52,7 +34,10 @@ const QuestionsList: FC = () => {
     return (
         <Fragment>
             <h1>Questions</h1>
-            <Switch checked={answeredFilter} onChange={handleFilterChange} name="filterResults" />
+            <FormControlLabel
+                control={<Switch checked={answeredFilter} onChange={handleFilterChange} name="filterResults" />}
+                label="Show answered questions"
+            />
             <ul>
                 {questionIds.map((questionId: string) => (
                     <li key={questionId}>

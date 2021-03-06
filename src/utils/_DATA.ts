@@ -33,7 +33,6 @@ export interface IQuestion {
     timestamp: number;
     optionOne: IQuestionOption;
     optionTwo: IQuestionOption;
-    answer?: { [key: string]: string };
 }
 
 let users: { [key: string]: IUser } = {

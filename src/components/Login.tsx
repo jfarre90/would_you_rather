@@ -1,12 +1,11 @@
-/* eslint-disable prettier/prettier */
 import { Button, Container, FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { ChangeEvent, FC, MouseEvent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useLocation, Redirect } from 'react-router-dom';
 import { setAuthedUser } from '../actions/authedUser';
+import { handleInitialData } from '../actions/shared';
 import { IStoreState } from '../reducers';
-import { useState, FC, ChangeEvent, MouseEvent } from 'react';
-import { Redirect } from 'react-router-dom';
-import './Login.css';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -34,15 +33,22 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Login: FC = () => {
+    const classes = useStyles();
+    const history = useHistory();
+    const location = useLocation();
+
+    const authUser: string = useSelector((state: IStoreState) => state.authedUser);
+
     const userIds: string[] = useSelector((state: IStoreState): string[] => {
         const { users } = state;
 
         return Object.keys(users);
     });
 
-    const classes = useStyles();
+    const { from } = (location.state || { from: { pathname: '/' } }) as { [key: string]: { pathname: string } };
 
-    const [toHome, setToHome] = useState(false);
+    const dispatch = useDispatch();
+
     const [selectedUser, setSelectedUser] = useState('');
 
     const handleSelectChange = (event: ChangeEvent<{ value: unknown }>) => {
@@ -51,46 +57,46 @@ const Login: FC = () => {
         setSelectedUser(event.target.value as string);
     };
 
-    const dispatch = useDispatch();
     const handleLoginClick = (event: MouseEvent<{ value: unknown }>) => {
         event.preventDefault();
 
         dispatch(setAuthedUser(selectedUser));
+        dispatch(handleInitialData());
 
-        setToHome(true);
+        history.push(from);
     };
 
-    return toHome ? (
+    return authUser ? (
         <Redirect to="/" />
     ) : (
-            <Container maxWidth="md" className={classes.marginAutoContainer}>
-                <h1>Welcome to the Would you Rather app. Please log in:</h1>
-                <FormControl className={classes.formControl}>
-                    <InputLabel id="demo-simple-select-helper-label">Select user</InputLabel>
-                    <Select
-                        className={classes.selectEmpty}
-                        labelId="user-selection"
-                        value={selectedUser}
-                        onChange={handleSelectChange}
-                    >
-                        {userIds.map((userId: string) => (
-                            <MenuItem key={userId} value={userId}>
-                                {userId}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-                <Button
-                    variant="contained"
-                    className={classes.button}
-                    color="primary"
-                    disabled={selectedUser === ''}
-                    onClick={handleLoginClick}
+        <Container maxWidth="md" className={classes.marginAutoContainer}>
+            <h1>Welcome to the Would you Rather app. Please log in:</h1>
+            <FormControl className={classes.formControl}>
+                <InputLabel id="demo-simple-select-helper-label">Select user</InputLabel>
+                <Select
+                    className={classes.selectEmpty}
+                    labelId="user-selection"
+                    value={selectedUser}
+                    onChange={handleSelectChange}
                 >
-                    Login
+                    {userIds.map((userId: string) => (
+                        <MenuItem key={userId} value={userId}>
+                            {userId}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
+            <Button
+                variant="contained"
+                className={classes.button}
+                color="primary"
+                disabled={selectedUser === ''}
+                onClick={handleLoginClick}
+            >
+                Login
             </Button>
-            </Container>
-        );
+        </Container>
+    );
 };
 
 export default Login;

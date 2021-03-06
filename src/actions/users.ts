@@ -2,12 +2,14 @@ import { IUser } from '../utils/_DATA';
 
 export const RECEIVE_USERS = 'RECEIVE_USERS';
 
-export interface IReceivedUsersAction {
-    type: string;
+interface IGetUsersAction {
+    type: typeof RECEIVE_USERS;
     users: { [key: string]: IUser };
 }
 
-export function receiveUsers(users: { [key: string]: IUser }): IReceivedUsersAction {
+export type UserActionTypes = IGetUsersAction;
+
+export function receiveUsers(users: { [key: string]: IUser }): UserActionTypes {
     return {
         type: RECEIVE_USERS,
         users

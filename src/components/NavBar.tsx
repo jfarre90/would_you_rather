@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { setAuthedUser } from '../actions/authedUser';
 import { IStoreState } from '../reducers';
-import NavBarMenu from './NavBarMenu';
+import NavBarMenu, { MenuItemMetadata } from './NavBarMenu';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -54,37 +54,14 @@ const NavBar: FC = () => {
         </Fragment>
     );
 
-    const appMenuItems: JSX.Element[] = [
-        <div
-            key={1}
-            onClick={() => {
-                history.push('/');
-            }}
-        >
-            Home
-        </div>,
-        <div
-            key={2}
-            onClick={() => {
-                history.push('/questions/add');
-            }}
-        >
-            New Question
-        </div>,
-        <div
-            key={3}
-            onClick={() => {
-                history.push('/leaderboard');
-            }}
-        >
-            Leaderboard
-        </div>
+    const appMenuItems: MenuItemMetadata[] = [
+        { targetUrl: '/', itemText: 'Dashboard', key: 'a' },
+        { targetUrl: '/add', itemText: 'New question', key: 'b' },
+        { targetUrl: '/leaderboard', itemText: 'Leaderboard', key: 'c' }
     ];
 
-    const userMenuItems: JSX.Element[] = [
-        <div key={1} onClick={handleLogout}>
-            Logout
-        </div>
+    const userMenuItems: MenuItemMetadata[] = [
+        { targetUrl: '/logout', itemText: 'Logout', key: 'd', customClickBehaviour: handleLogout }
     ];
 
     return (

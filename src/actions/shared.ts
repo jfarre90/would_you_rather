@@ -1,8 +1,11 @@
-import { hideLoading, showLoading } from 'react-redux-loading';
+import { hideLoading, showLoading } from 'react-redux-loading-bar';
 import { Dispatch } from 'redux';
 import { getInitialData } from '../utils/api';
-import { receiveQuestions } from './questions';
-import { receiveUsers } from './users';
+import { IAuthUserAction } from './authedUser';
+import { QuestionActionTypes, receiveQuestions } from './questions';
+import { receiveUsers, UserActionTypes } from './users';
+
+export type ReduxAction = QuestionActionTypes | UserActionTypes | IAuthUserAction;
 
 export function handleInitialData() {
     return async (dispatch: Dispatch): Promise<any> => {

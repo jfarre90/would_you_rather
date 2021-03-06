@@ -1,7 +1,7 @@
 export const SET_AUTHED_USER = 'SET_AUTHED_USER';
 
 export interface IAuthUserAction {
-    type: string;
+    type: typeof SET_AUTHED_USER;
     id: string;
 }
 

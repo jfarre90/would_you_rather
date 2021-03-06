@@ -39,7 +39,7 @@ let users: { [key: string]: IUser } = {
     sarahedo: {
         id: 'sarahedo',
         name: 'Sarah Edo',
-        avatarURL: '',
+        avatarURL: 'https://i.pravatar.cc/300?img=68',
         answers: {
             '8xf0y6ziyjabvozdd253nd': 'optionOne',
             '6ni6ok3ym7mf1p33lnez': 'optionTwo',
@@ -51,7 +51,7 @@ let users: { [key: string]: IUser } = {
     tylermcginnis: {
         id: 'tylermcginnis',
         name: 'Tyler McGinnis',
-        avatarURL: '',
+        avatarURL: 'https://i.pravatar.cc/300?img=69',
         answers: {
             vthrdm985a262al8qx3do: 'optionOne',
             xj352vofupe1dqz9emx13r: 'optionTwo'
@@ -61,7 +61,7 @@ let users: { [key: string]: IUser } = {
     johndoe: {
         id: 'johndoe',
         name: 'John Doe',
-        avatarURL: '',
+        avatarURL: 'https://i.pravatar.cc/300?img=70',
         answers: {
             xj352vofupe1dqz9emx13r: 'optionOne',
             vthrdm985a262al8qx3do: 'optionTwo',

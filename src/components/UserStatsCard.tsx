@@ -24,17 +24,6 @@ type UserStatsCardProps = {
     id: string;
 };
 
-/**
-     * TODO
-     * add the following properties to the card
-     *  - user name
-     *  - user picture
-     *  - number questions asked
-     *  - number questions ansered
-     * - ordered in descending order based on teh sum of both numbers above (show number)
-
-    */
-
 const UserStatsCard: FC<UserStatsCardProps> = ({ id }) => {
     const classes = useStyles();
 

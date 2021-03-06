@@ -95,7 +95,10 @@ const QuestionDetailedCard: FC<QuestionDetailedCardProps> = ({ author, id }) => 
                     ) : (
                         <div>
                             <h3>{question.optionOne.votes.length} Votes</h3>
-                            <h3>{(question.optionOne.votes.length / totalVotes) * 100} % of total votes</h3>
+                            <h3>
+                                {Math.round((question.optionOne.votes.length / totalVotes) * 10000) / 100} % of total
+                                votes
+                            </h3>
                         </div>
                     )}
                 </Box>

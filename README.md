@@ -1,7 +1,14 @@
 # Project Review notes
 
-I have used typescript to help during my development.
-You should be able to just run yarn install OR npm install to isntall the packages, and then yarn start to start it.
+I decided to take a bit of a challenge with the project and implement some elements not included in the course, like:
+
+-   Typescript
+-   Hooks
+-   Material library
+
+My main focus has been on architecture and just provided a simple and basic UI, making use of some of the material-ui components
+
+You should be able to run yarn install to install the packages, and the app should compile without issues.
 
 # Would You Rather Project
 

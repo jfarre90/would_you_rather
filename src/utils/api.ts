@@ -1,3 +1,4 @@
+import { IFormattedQuestion } from './helpers';
 import { ISavedAnswer, ISavedQuestion, _getQuestions, _getUsers, _saveQuestion, _saveQuestionAnswer } from './_DATA';
 
 export async function getInitialData(): Promise<any> {
@@ -7,7 +8,7 @@ export async function getInitialData(): Promise<any> {
     }));
 }
 
-export async function saveQuestion(question: ISavedQuestion): Promise<any> {
+export async function saveQuestion(question: ISavedQuestion): Promise<IFormattedQuestion> {
     return _saveQuestion(question);
 }
 

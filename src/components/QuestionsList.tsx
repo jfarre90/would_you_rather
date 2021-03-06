@@ -26,9 +26,11 @@ const QuestionsList: FC = () => {
             (a, b) => questions[b].timestamp - questions[a].timestamp
         );
 
-        return answeredFilter
-            ? answeredQuestionsIds
-            : Object.keys(questions).sort((a, b) => questions[b].timestamp - questions[a].timestamp);
+        const unansweredQuestionsIds: string[] = Object.keys(questions)
+            .filter((questionId: string) => !Object.keys(currUser.answers).includes(questionId))
+            .sort((a, b) => questions[b].timestamp - questions[a].timestamp);
+
+        return answeredFilter ? answeredQuestionsIds : unansweredQuestionsIds;
     });
 
     return (
@@ -36,7 +38,7 @@ const QuestionsList: FC = () => {
             <h1>Questions</h1>
             <FormControlLabel
                 control={<Switch checked={answeredFilter} onChange={handleFilterChange} name="filterResults" />}
-                label="Show answered questions"
+                label={`Showing ${answeredFilter ? 'answered' : 'unanswered'} questions`}
             />
             <ul>
                 {questionIds.map((questionId: string) => (

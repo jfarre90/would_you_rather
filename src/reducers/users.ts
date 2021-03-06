@@ -1,4 +1,4 @@
-import { REMOVE_ANSWER, SEND_ANSWER } from '../actions/questions';
+import { ADD_QUESTION, REMOVE_ANSWER, ADD_ANSWER } from '../actions/questions';
 import { ReduxAction } from '../actions/shared';
 import { RECEIVE_USERS } from '../actions/users';
 import { IUser } from '../utils/_DATA';
@@ -10,7 +10,7 @@ export default function users(state: { [userId: string]: IUser } = {}, action: R
                 ...state,
                 ...action.users
             };
-        case SEND_ANSWER:
+        case ADD_ANSWER:
             return {
                 ...state,
                 [action.userId]: {
@@ -30,6 +30,14 @@ export default function users(state: { [userId: string]: IUser } = {}, action: R
                         ...state[action.userId].answers,
                         [action.questionId]: null
                     }
+                }
+            };
+        case ADD_QUESTION:
+            return {
+                ...state,
+                [action.savedQuestion.author]: {
+                    ...state[action.savedQuestion.author],
+                    questions: state[action.savedQuestion.author].questions.concat([action.savedQuestion.id])
                 }
             };
         default:

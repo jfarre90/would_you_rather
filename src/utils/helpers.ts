@@ -1,6 +1,6 @@
 import { IQuestionOption, ISavedQuestion } from './_DATA';
 
-interface IFormattedQuestion {
+export interface IFormattedQuestion {
     id: string;
     timestamp: number;
     author: string;

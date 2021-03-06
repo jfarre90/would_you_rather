@@ -1,4 +1,5 @@
 import { Button, Container, FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
+import { green } from '@material-ui/core/colors';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { ChangeEvent, FC, MouseEvent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
             flexDirection: 'column',
             justifyContent: 'space-evenly',
             alignItems: 'center',
-            backgroundColor: 'green'
+            backgroundColor: green[400]
         },
         formControl: {
             // margin: 'auto',

@@ -1,4 +1,4 @@
-import { formatQuestion } from './helpers';
+import { formatQuestion, IFormattedQuestion } from './helpers';
 
 export interface ISavedQuestion {
     optionOneText: string;
@@ -164,7 +164,7 @@ export async function _getQuestions(): Promise<any> {
     });
 }
 
-export async function _saveQuestion(question: ISavedQuestion): Promise<any> {
+export async function _saveQuestion(question: ISavedQuestion): Promise<IFormattedQuestion> {
     return new Promise((res) => {
         const authedUser = question.author;
         const formattedQuestion = formatQuestion(question);

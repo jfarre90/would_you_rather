@@ -1,10 +1,12 @@
+import { hideLoading, showLoading } from 'react-redux-loading-bar';
 import { Dispatch } from 'redux';
 import { saveQuestion, saveQuestionAnswer } from '../utils/api';
+import { IFormattedQuestion } from '../utils/helpers';
 import { IQuestion } from '../utils/_DATA';
 
 export const RECEIVE_QUESTIONS = 'RECEIVE_QUESTIONS';
 export const ADD_QUESTION = 'ADD_QUESTION';
-export const SEND_ANSWER = 'SEND_ANSWER';
+export const ADD_ANSWER = 'ADD_ANSWER';
 export const REMOVE_ANSWER = 'REMOVE_ANSWER';
 
 interface IReceiveQuestionsAction {
@@ -13,7 +15,7 @@ interface IReceiveQuestionsAction {
 }
 
 interface ISaveAnswerAction {
-    type: typeof SEND_ANSWER;
+    type: typeof ADD_ANSWER;
     questionId: string;
     answerId: string;
     userId: string;
@@ -28,9 +30,7 @@ interface IRemoveAnswerAction {
 
 interface IAddQuestionAction {
     type: typeof ADD_QUESTION;
-    optionOneText: string;
-    optionTwoText: string;
-    author: string;
+    savedQuestion: IFormattedQuestion;
 }
 
 export type QuestionActionTypes =
@@ -48,7 +48,7 @@ export function receiveQuestions(questions: { [questionId: string]: IQuestion })
 
 function addAnswer(questionId: string, answerId: string, userId: string): QuestionActionTypes {
     return {
-        type: SEND_ANSWER,
+        type: ADD_ANSWER,
         questionId: questionId,
         answerId,
         userId
@@ -77,12 +77,10 @@ export function saveAnswer(questionId: string, answerId: string, userId: string)
     };
 }
 
-function addQuestion(optionOneText: string, optionTwoText: string, author: string): QuestionActionTypes {
+function addQuestion(savedQuestion: IFormattedQuestion): QuestionActionTypes {
     return {
         type: ADD_QUESTION,
-        optionOneText,
-        optionTwoText,
-        author
+        savedQuestion
     };
 }
 
@@ -92,12 +90,13 @@ export function handleAddQuestion(
     author: string
 ): (dispatch: Dispatch) => Promise<any> {
     return async (dispatch: Dispatch): Promise<any> => {
-        dispatch(addQuestion(optionOneText, optionTwoText, author));
-
         try {
-            saveQuestion({ optionOneText, optionTwoText, author });
+            dispatch(showLoading());
+            const savedQuestion = await saveQuestion({ optionOneText, optionTwoText, author });
+
+            dispatch(addQuestion(savedQuestion));
+            dispatch(hideLoading());
         } catch (err) {
-            //TODO - potential improvement to remove the question if failed
             alert('There was an error submitting your question. Try again!');
         }
     };

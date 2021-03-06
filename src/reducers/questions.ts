@@ -1,6 +1,5 @@
-import { ADD_QUESTION, RECEIVE_QUESTIONS, REMOVE_ANSWER, SEND_ANSWER } from '../actions/questions';
+import { ADD_QUESTION, RECEIVE_QUESTIONS, REMOVE_ANSWER, ADD_ANSWER } from '../actions/questions';
 import { ReduxAction } from '../actions/shared';
-import { formatQuestion, generateUID } from '../utils/helpers';
 import { IQuestion } from '../utils/_DATA';
 
 export default function questions(
@@ -13,7 +12,7 @@ export default function questions(
                 ...state,
                 ...action.questions
             };
-        case SEND_ANSWER:
+        case ADD_ANSWER:
             return {
                 ...state,
                 [action.questionId]: {
@@ -40,12 +39,8 @@ export default function questions(
         case ADD_QUESTION:
             return {
                 ...state,
-                [generateUID()]: {
-                    ...formatQuestion({
-                        optionOneText: action.optionOneText,
-                        optionTwoText: action.optionTwoText,
-                        author: action.author
-                    })
+                [action.savedQuestion.id]: {
+                    ...action.savedQuestion
                 }
             };
         default:

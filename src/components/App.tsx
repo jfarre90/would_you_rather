@@ -6,6 +6,7 @@ import { Route, Switch } from 'react-router-dom';
 import { handleInitialData } from '../actions/shared';
 import { IStoreState } from '../reducers';
 import Home from './Home';
+import Leaderboard from './Leaderboard';
 import Login from './Login';
 import NewQuestion from './NewQuestion';
 import NotFound from './NotFound';
@@ -45,24 +46,24 @@ const App: FC = () => {
                 </div>
             ) : (
                 <Switch>
-                    <PrivateRoute exact path="/">
-                        <Home />
-                    </PrivateRoute>
                     <Route path="/login">
                         <Login />
                     </Route>
+                    <PrivateRoute exact path="/">
+                        <Home />
+                    </PrivateRoute>
                     <PrivateRoute path="/questions/:id">
                         <QuestionPage />
                     </PrivateRoute>
                     <PrivateRoute path="/leaderboard">
-                        <h1>Leaderboard placeholder</h1>
+                        <Leaderboard />
                     </PrivateRoute>
                     <PrivateRoute path="/add">
                         <NewQuestion />
                     </PrivateRoute>
-                    <Route path="*">
+                    <PrivateRoute path="*">
                         <NotFound />
-                    </Route>
+                    </PrivateRoute>
                 </Switch>
             )}
         </Fragment>

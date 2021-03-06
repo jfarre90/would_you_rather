@@ -8,7 +8,6 @@ import {
     makeStyles,
     Theme
 } from '@material-ui/core';
-import { green } from '@material-ui/core/colors';
 import { FC, FormEvent, Fragment, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -21,34 +20,20 @@ const useStyles = makeStyles((theme: Theme) =>
         mainContainer: {
             marginTop: theme.spacing(3),
             display: 'flex',
-            flexDirection: 'column'
-        },
-        cardHeader: {
-            display: 'flex',
-            flexDirection: 'column'
-        },
-        cardContent: {
-            display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-evenly',
             alignItems: 'center'
         },
-        selectOption: {
+        form: {
             display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-evenly',
-            alignItems: 'center',
-            padding: theme.spacing(1),
-            borderRadius: theme.spacing(1),
-            border: '1px solid gray',
-            margin: theme.spacing(2)
+            flexDirection: 'column',
+            justifycontent: 'space-between',
+            alignItems: 'center'
         },
-        selectText: {
-            marginRight: theme.spacing(2)
-        },
-        selected: {
-            backgroundColor: green[500],
-            borderWidth: '2px'
+        button: {
+            margin: theme.spacing(5),
+            width: '250px',
+            height: '100px'
         }
     })
 );
@@ -63,9 +48,6 @@ const NewQuestion: FC = () => {
     const [input, setInput] = useState({ optionOne: '', optionTwo: '' });
 
     const handleInputChange = (event: any) => {
-        event.preventDefault();
-
-        console.log('##### event', event);
         setInput({
             ...input,
             [event.target.name]: event.target.value
@@ -75,7 +57,14 @@ const NewQuestion: FC = () => {
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        dispatch(handleAddQuestion(input.optionOne, input.optionTwo, authUser));
+        const { optionOne, optionTwo } = input;
+
+        if (optionOne === optionTwo) {
+            alert('The options are the same. Please add different options');
+            return;
+        }
+
+        dispatch(handleAddQuestion(optionOne, optionTwo, authUser));
 
         history.push('/');
     };
@@ -86,7 +75,7 @@ const NewQuestion: FC = () => {
             <Container maxWidth="md" className={classes.mainContainer}>
                 <h3>Add your new question</h3>
                 <h4>Would you rather...</h4>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className={classes.form}>
                     <FormControl>
                         <InputLabel htmlFor="option-one-input">Option One</InputLabel>
                         <Input
@@ -98,6 +87,7 @@ const NewQuestion: FC = () => {
                         />
                         <FormHelperText id="option-one-text">Add the first option</FormHelperText>
                     </FormControl>
+                    <h4>OR</h4>
                     <FormControl>
                         <InputLabel htmlFor="option-two-input">Option Two</InputLabel>
                         <Input
@@ -109,7 +99,11 @@ const NewQuestion: FC = () => {
                         />
                         <FormHelperText id="option-two-text">Add the second option</FormHelperText>
                     </FormControl>
-                    <button type="submit" disabled={input['optionOne'] === '' || input['optionTwo'] === ''}>
+                    <button
+                        className={classes.button}
+                        type="submit"
+                        disabled={input['optionOne'] === '' || input['optionTwo'] === ''}
+                    >
                         Submit
                     </button>
                 </form>

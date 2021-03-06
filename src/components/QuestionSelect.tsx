@@ -2,8 +2,9 @@ import { Button, CircularProgress, createStyles, makeStyles, Theme } from '@mate
 import { green } from '@material-ui/core/colors';
 import PropTypes from 'prop-types';
 import { FC, useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { saveAnswer } from '../actions/questions';
+import { IStoreState } from '../reducers';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -28,16 +29,17 @@ const useStyles = makeStyles((theme: Theme) =>
 
 type QuestionSelectProps = {
     optionId: string;
-    authedUser: string;
     questionId: string;
 };
 
-const QuestionSelect: FC<QuestionSelectProps> = ({ optionId, authedUser, questionId }) => {
+const QuestionSelect: FC<QuestionSelectProps> = ({ optionId, questionId }) => {
     const classes = useStyles();
     const [loading, setLoading] = useState(false);
     const timer = useRef<number>();
 
     const dispatch = useDispatch();
+
+    const authUser: string = useSelector((state: IStoreState) => state.authedUser);
 
     useEffect(() => {
         return () => {
@@ -50,7 +52,7 @@ const QuestionSelect: FC<QuestionSelectProps> = ({ optionId, authedUser, questio
         if (!loading) {
             setLoading(true);
 
-            dispatch(saveAnswer(questionId, optionId, authedUser));
+            dispatch(saveAnswer(questionId, optionId, authUser));
 
             timer.current = window.setTimeout(() => {
                 setLoading(false);
@@ -72,7 +74,6 @@ const QuestionSelect: FC<QuestionSelectProps> = ({ optionId, authedUser, questio
 
 QuestionSelect.propTypes = {
     optionId: PropTypes.string.isRequired,
-    authedUser: PropTypes.string.isRequired,
     questionId: PropTypes.string.isRequired
 };
 
